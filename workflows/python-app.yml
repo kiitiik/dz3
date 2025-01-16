@@ -1,0 +1,38 @@
+name: Python application
+
+on:
+  push:
+    branches:
+      - main  https://github.com/kiitiik/dz3, 'master'
+  pull_request:
+    branches:
+      - main  # https://github.com/kiitiik/dz3
+
+jobs:
+  test:
+    runs-on: ubuntu-latest  # Используется виртуальная машина с Ubuntu
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2  # Клонирует репозиторий
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.8'  # Укажите вашу версию Python
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt  # Установит зависимости из файла requirements.txt
+
+    - name: Run tests
+      run: |
+        pytest  # Выполнит автотесты с использованием pytest
+
+    - name: Upload test results
+      if: always()
+      uses: actions/upload-artifact@v2
+      with:
+        name: test-results
+        path: test_results.xml  # Путь к файлу с результатами тестов (если он генерируется)

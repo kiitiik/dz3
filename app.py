@@ -7,6 +7,8 @@ import os
 import logging
 import requests
 
+from fastapi.responses import JSONResponse
+from contextlib import asynccontextmanager
 # Настройка логгера
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -95,3 +97,5 @@ def predict_sentiment(input: TextInput):
     except Exception as e:
         logger.error(f"Ошибка обработки запроса: {e}")
         raise HTTPException(status_code=500, detail="Ошибка обработки запроса.")
+
+
